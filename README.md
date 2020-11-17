@@ -1,1 +1,1 @@
-# 11-api-blogium
+# api-blogium
