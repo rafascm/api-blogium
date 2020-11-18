@@ -26,10 +26,20 @@ const insertPost = (post: Post) => {
 }
 
 const findPost = (post: Post) => _.find(posts, _.matches(post))
+const findPostByID = (id: number) => _.find(posts, ['id', id])
+const findPostsByUserID = (id: number) => _.filter(posts, ['author[id]', id])
 
 const getLastPostID = () => {
   const last = _.last(posts)
   return last ? last.id : 0
 }
 
-export { posts, postCreationSchema, insertPost, findPost, getLastPostID }
+export {
+  posts,
+  postCreationSchema,
+  insertPost,
+  findPost,
+  getLastPostID,
+  findPostsByUserID,
+  findPostByID
+}

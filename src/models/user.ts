@@ -13,7 +13,7 @@ type User = Session & {
   id: number
 }
 
-const users: Array<User> = readDB(USER_DATA_FILE) || []
+const users: Array<User> = readDB(USER_DATA_FILE)
 
 const usernameRegex = /^([a-z]+[\d]*[.]?[\da-z]+){2,}$/
 const pwdRegex = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%&+]).{6,10}$/
@@ -37,7 +37,7 @@ const insertUser = (user: User) => {
   updateDB(USER_DATA_FILE, users)
 }
 
-const findUser = (user: User) => _.find(users, _.matchesProperty('id', user.id))
+const findUser = (user: User) => _.find(users, ['id', user.id])
 
 const getLastUserID = () => {
   const last = _.last(users)

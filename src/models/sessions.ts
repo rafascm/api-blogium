@@ -11,6 +11,6 @@ const loadSession = (session: Session) => {
 }
 
 const findSession = (token: string) =>
-  _.find(sessions, _.matchesProperty('token', token))
+  _.find(sessions, ['token', token])
 
 export { sessions, loadSession, findSession, Session }

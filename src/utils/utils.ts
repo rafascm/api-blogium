@@ -13,4 +13,17 @@ const updateDB = (filename: string, array: any[]) => {
   fs.writeFileSync(filename, JSON.stringify(array, null, 2))
 }
 
-export { USER_DATA_FILE, POSTS_DATA_FILE, SESSIONS_DATA_FILE, readDB, updateDB }
+const filterByOffsetLimit = (array: any[], offset: any, limit: any) => {
+  return array.slice(
+    Number(offset || 0),
+    Number(offset || 0) + Number(limit || array.length)
+  )
+}
+export {
+  USER_DATA_FILE,
+  POSTS_DATA_FILE,
+  SESSIONS_DATA_FILE,
+  readDB,
+  updateDB,
+  filterByOffsetLimit
+}

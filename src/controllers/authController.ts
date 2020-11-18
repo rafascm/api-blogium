@@ -8,6 +8,8 @@ import {
   insertUser,
   getLastUserID
 } from '../models/user'
+import { posts, findPostsByUserID } from '../models/posts'
+import { filterByOffsetLimit } from '../utils/utils'
 
 const router = Router()
 
@@ -40,6 +42,15 @@ router.post('/sign-in', (req: Request, res: Response) => {
 
   delete user.password
   res.status(200).send({ ...user, token })
+})
+
+router.get('/:id/posts', (req: Request, res: Response) => {
+  const arr = findPostsByUserID(Number(req.params.id))
+
+  res.status(200).send({
+    count: posts.length,
+    posts: filterByOffsetLimit(arr, req.query.offset, req.query.limit)
+  })
 })
 
 export default router

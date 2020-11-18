@@ -3,13 +3,15 @@ import {
   postCreationSchema,
   getLastPostID,
   insertPost,
-  posts
+  posts,
+  findPostByID
 } from '../models/posts'
 import { findSession } from '../models/sessions'
 import { findUser } from '../models/user'
 
 import stripHtml from 'string-strip-html'
 import dayjs from 'dayjs'
+import { filterByOffsetLimit } from '../utils/utils'
 // import _ from 'lodash'
 
 const router = Router()
@@ -51,12 +53,17 @@ router.post('/', (req: Request, res: Response) => {
 })
 
 router.get('/', (req: Request, res: Response) => {
-  const { offset, limit } = req.query
-
   res.send({
     count: posts.length,
-    posts: posts.slice(Number(offset), Number(offset) + Number(limit))
-  })
+    posts: filterByOffsetLimit(posts, req.query.offset, req.query.limit)
+  }).status(200)
+})
+
+router.get('/:id', (req: Request, res: Response) => {
+  const post = findPostByID(Number(req.params.id))
+  if (!post) return res.sendStatus(404)
+
+  res.send(post).status(200)
 })
 
 export default router
