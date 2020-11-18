@@ -1,14 +1,16 @@
 import joi from 'joi'
+import _ from 'lodash'
 import { readDB, updateDB, USER_DATA_FILE } from '../utils/utils'
+import { Session } from './sessions'
 
-type User = Object & {
+type User = Session & {
   username?: string
   email?: string
   password?: string
   passwordConfirmation?: string
   avatarUrl?: string
   biography?: string
-  id?: number
+  id: number
 }
 
 const users: Array<User> = readDB(USER_DATA_FILE)
@@ -35,18 +37,11 @@ const insertUser = (user: User) => {
   updateDB(USER_DATA_FILE, users)
 }
 
-const findUser = (user: User) => {
-  return users.find(
-    u =>
-      (u.password === user.password && u.email === user.email) ||
-      u.id === user.id ||
-      u.username === user.username ||
-      u.email === user.email
-  )
-}
+const findUser = (user: User) => _.find(users, _.matches(user))
 
-const getLastID = () => {
-  return (users[users.length - 1] && users[users.length - 1].id) || 0
+const getLastUserID = () => {
+  const last = _.last(users)
+  return last ? last.id : 0
 }
 
 export {
@@ -55,6 +50,6 @@ export {
   users,
   User,
   findUser,
-  getLastID,
+  getLastUserID,
   insertUser
 }

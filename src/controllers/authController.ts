@@ -1,19 +1,17 @@
 import { Router, Request, Response } from 'express'
+import { loadSession } from '../models/sessions'
 import { v4 as uuid } from 'uuid'
 import {
   userCreationSchema,
   userSignInSchema,
   findUser,
   insertUser,
-  getLastID
+  getLastUserID
 } from '../models/user'
-import { readDB, SESSIONS_DATA_FILE, updateDB } from '../utils/utils'
 
 const router = Router()
 
-const sessions = readDB(SESSIONS_DATA_FILE)
-
-let countID = getLastID()
+let countID = getLastUserID()
 
 router.post('/sign-up', (req: Request, res: Response) => {
   const error = userCreationSchema.validate(req.body).error
@@ -45,8 +43,3 @@ router.post('/sign-in', (req: Request, res: Response) => {
 })
 
 export default router
-
-const loadSession = (session: { token: string; id: number | undefined }) => {
-  sessions.push(session)
-  updateDB(SESSIONS_DATA_FILE, sessions)
-}
