@@ -37,7 +37,7 @@ const insertUser = (user: User) => {
   updateDB(USER_DATA_FILE, users)
 }
 
-const findUser = (user: User) => _.find(users, _.matches(user))
+const findUser = (user: User) => _.find(users, _.matchesProperty('id', user.id))
 
 const getLastUserID = () => {
   const last = _.last(users)

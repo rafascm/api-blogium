@@ -14,7 +14,7 @@ router.post('/', (req: Request, res: Response) => {
   const auth = req.header('Authorization')
   if (!auth) return res.sendStatus(403)
 
-  const token = auth.substring(0, auth.lastIndexOf(' '))
+  const token = auth.split(' ')[1]
 
   const session = findSession(token)
   if (!session) return res.sendStatus(403)
@@ -30,7 +30,7 @@ router.post('/', (req: Request, res: Response) => {
     publishedAt: dayjs().format('DD/MM/YYYY-HH:mm:ss'),
     contentPreview: stripHtml(
       req.body.content.substring(300, req.body.content.length)
-    ),
+    ).result,
     authorID: user.id,
     id: ++countID
   }
