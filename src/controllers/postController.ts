@@ -1,7 +1,13 @@
 import { Router, Request, Response } from 'express'
-import { postCreationSchema, getLastPostID, insertPost } from '../models/posts'
+import {
+  postCreationSchema,
+  getLastPostID,
+  insertPost,
+  posts
+} from '../models/posts'
 import { findSession } from '../models/sessions'
 import { findUser } from '../models/user'
+
 import stripHtml from 'string-strip-html'
 import dayjs from 'dayjs'
 // import _ from 'lodash'
@@ -31,21 +37,26 @@ router.post('/', (req: Request, res: Response) => {
     contentPreview: stripHtml(
       req.body.content.substring(300, req.body.content.length)
     ).result,
-    authorID: user.id,
-    id: ++countID
+    id: ++countID,
+    author: {
+      id: user.id,
+      username: user.username,
+      avatarUrl: user.avatarUrl,
+      biography: user.biography
+    }
   }
 
   insertPost(newPost)
+  res.status(201).send(newPost)
+})
 
-  delete newPost.authorID
-  const author = {
-    id: user.id,
-    username: user.username,
-    avatarUrl: user.avatarUrl,
-    biography: user.biography
-  }
+router.get('/', (req: Request, res: Response) => {
+  const { offset, limit } = req.query
 
-  res.status(201).send({ ...newPost, author })
+  res.send({
+    count: posts.length,
+    posts: posts.slice(Number(offset), Number(offset) + Number(limit))
+  })
 })
 
 export default router

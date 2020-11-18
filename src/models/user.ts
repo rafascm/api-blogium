@@ -13,7 +13,7 @@ type User = Session & {
   id: number
 }
 
-const users: Array<User> = readDB(USER_DATA_FILE)
+const users: Array<User> = readDB(USER_DATA_FILE) || []
 
 const usernameRegex = /^([a-z]+[\d]*[.]?[\da-z]+){2,}$/
 const pwdRegex = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%&+]).{6,10}$/
