@@ -1,18 +1,17 @@
+import { filterByOffsetLimit } from '../utils/utils'
 import { Router, Request, Response } from 'express'
+import { findSession } from '../models/sessions'
+import { findUser } from '../models/user'
+import stripHtml from 'string-strip-html'
+import dayjs from 'dayjs'
 import {
   postCreationSchema,
   getLastPostID,
   insertPost,
   posts,
-  findPostByID
+  findPostByID,
+  deletePost
 } from '../models/posts'
-import { findSession } from '../models/sessions'
-import { findUser } from '../models/user'
-
-import stripHtml from 'string-strip-html'
-import dayjs from 'dayjs'
-import { filterByOffsetLimit } from '../utils/utils'
-// import _ from 'lodash'
 
 const router = Router()
 
@@ -25,7 +24,7 @@ router.post('/', (req: Request, res: Response) => {
   const token = auth.split(' ')[1]
 
   const session = findSession(token)
-  if (!session) return res.sendStatus(403)
+  if (!session) return res.sendStatus(401)
 
   const user = findUser(session)
   if (!user) return res.sendStatus(403)
@@ -64,6 +63,30 @@ router.get('/:id', (req: Request, res: Response) => {
   if (!post) return res.sendStatus(404)
 
   res.send(post).status(200)
+})
+
+router.put('/:id', (req: Request, res: Response) => {
+
+})
+
+router.delete('/:id', (req: Request, res: Response) => {
+  const id = Number(req.params.id)
+  const auth = req.header('Authorization')
+  if (!auth) return res.sendStatus(403)
+
+  const token = auth.split(' ')[1]
+
+  const session = findSession(token)
+  if (!session) return res.sendStatus(401)
+
+  const user = findUser(session)
+  if (!user) return res.sendStatus(403)
+
+  if (findPostByID(id, user.id)) return res.sendStatus(401)
+
+  deletePost(id)
+
+  res.sendStatus(200)
 })
 
 export default router

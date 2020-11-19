@@ -1,3 +1,5 @@
+import { posts, findPostsByUserID } from '../models/posts'
+import { filterByOffsetLimit } from '../utils/utils'
 import { Router, Request, Response } from 'express'
 import { loadSession } from '../models/sessions'
 import { v4 as uuid } from 'uuid'
@@ -8,8 +10,6 @@ import {
   insertUser,
   getLastUserID
 } from '../models/user'
-import { posts, findPostsByUserID } from '../models/posts'
-import { filterByOffsetLimit } from '../utils/utils'
 
 const router = Router()
 

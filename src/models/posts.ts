@@ -12,7 +12,7 @@ type Post = {
   authorID: number
 }
 
-const posts: Array<Post> = readDB(POSTS_DATA_FILE)
+let posts: Array<Post> = readDB(POSTS_DATA_FILE)
 
 const postCreationSchema = joi.object({
   coverUrl: joi.string().uri().required(),
@@ -24,9 +24,16 @@ const insertPost = (post: Post) => {
   posts.push(post)
   updateDB(POSTS_DATA_FILE, posts)
 }
-
+const deletePost = (id: number) => {
+  posts = posts.filter(o => o.id !== id)
+  updateDB(POSTS_DATA_FILE, posts)
+}
 const findPost = (post: Post) => _.find(posts, _.matches(post))
-const findPostByID = (id: number) => _.find(posts, ['id', id])
+
+const findPostByID = (id: number, userID?: number) => {
+  if (!userID) return _.find(posts, ['id', id])
+  return _.find(posts, _.matches({ id: id, 'author[id]': userID }))
+}
 const findPostsByUserID = (id: number) => _.filter(posts, ['author[id]', id])
 
 const getLastPostID = () => {
@@ -41,5 +48,6 @@ export {
   findPost,
   getLastPostID,
   findPostsByUserID,
-  findPostByID
+  findPostByID,
+  deletePost
 }
