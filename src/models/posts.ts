@@ -29,7 +29,11 @@ const insertPost = (post: Post) => {
 }
 const editPost = (id: number, p: Post) => {
   const index = _.findIndex(posts, findPostByID(id))
-  posts[index] = { ...posts[index], ...p }
+  posts[index] = {
+    ...posts[index],
+    ...p,
+    contentPreview: getContentPreview(p.content)
+  }
   updateDB(POSTS_DATA_FILE, posts)
 }
 const deletePost = (id: number) => {

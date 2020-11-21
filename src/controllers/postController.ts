@@ -9,7 +9,6 @@ import {
   findPostByID,
   deletePost,
   editPost,
-  getContentPreview,
   createPost
 } from '../models/posts'
 
@@ -52,11 +51,7 @@ router.put('/:id', auth, (req: Request, res: Response) => {
   const error = postCreationSchema.validate(req.body).error
   if (error) return res.sendStatus(422)
 
-  const eddited = {
-    ...req.body,
-    contentPreview: getContentPreview(req.body.content)
-  }
-  editPost(id, eddited)
+  editPost(id, req.body)
 
   res.send(findPostByID(id)).status(200)
 })
