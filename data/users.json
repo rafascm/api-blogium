@@ -1,1 +1,26 @@
-[{"email":"rafa@mail.com","password":"24Rafael!","username":"rafasm","biography":"eu sou o jonathan da nova geração menó glub glub oooooooo alalalalalalala ttatataatata","avatarUrl":"https://i.imgur.com/2yfeQKK.mp4","id":1}]
+[
+  {
+    "email": "rafa@mail.com",
+    "password": "24Rafael!",
+    "username": "rafasm",
+    "biography": "eu sou o jonathan da nova geração menó glub glub oooooooo alalalalalalala ttatataatata",
+    "avatarUrl": "https://pbs.twimg.com/media/EA-6Al_XkAEEhjU.jpg",
+    "id": 1
+  },
+  {
+    "username": "lololol",
+    "avatarUrl": "https://i.imgur.com/U3cnbsN.jpeg",
+    "biography": "https://i.imgur.com/U3cnbsN.jpeghttps://i.imgur.com/U3cnbsN.jpeghttps://i.imgur.com/U3cnbsN.jpeghttps://i.imgur.com/U3cnbsN.jpeghttps://i.imgur.com/U3cnbsN.jpeghttps://i.imgur.com/U3cnbsN.jpeghttps://i.imgur.com/U3cnbsN.jpeg",
+    "email": "lolol@mail.com",
+    "password": "24Rafael!",
+    "id": 2
+  },
+  {
+    "username": "mulherpera",
+    "avatarUrl": "https://www.portalego.com.br/wp-content/uploads/2019/04/SUELEM.CURY_.png",
+    "biography": "eu sou a mulher pêra, a eterna fadinha do brasil, dona de muitas joias e de um bum bum maravilhoso.",
+    "email": "mperam@mail.com",
+    "password": "24Rafael!",
+    "id": 3
+  }
+]

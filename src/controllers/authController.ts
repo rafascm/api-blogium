@@ -8,8 +8,10 @@ import {
   userSignInSchema,
   findUser,
   insertUser,
+  matchUser,
   getLastUserID
 } from '../models/user'
+import _ from 'lodash'
 
 const router = Router()
 
@@ -20,28 +22,25 @@ router.post('/sign-up', (req: Request, res: Response) => {
   if (error) return res.sendStatus(422)
 
   const newUser = { ...req.body, id: ++countID }
-  delete newUser.passwordConfirmation
 
   if (findUser(newUser)) return res.sendStatus(409)
 
-  insertUser(newUser)
+  insertUser({ ..._.omit(newUser, ['passwordConfirmation']) })
 
-  delete newUser.password
-  res.send(JSON.stringify(newUser))
+  res.send(JSON.stringify(_.omit(newUser, ['password', 'passwordConfirmation'])))
 })
 
 router.post('/sign-in', (req: Request, res: Response) => {
   const error = userSignInSchema.validate(req.body).error
   if (error) return res.sendStatus(422)
 
-  const user = findUser(req.body)
+  const user = matchUser(req.body)
   if (!user) return res.sendStatus(404)
 
   const token = uuid()
   loadSession({ token: token, id: user.id })
 
-  delete user.password
-  res.status(200).send({ ...user, token })
+  res.status(200).send({ ..._.omit(user, ['password']), token })
 })
 
 router.get('/:id/posts', (req: Request, res: Response) => {

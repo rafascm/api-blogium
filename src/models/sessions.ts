@@ -13,4 +13,12 @@ const loadSession = (session: Session) => {
 const findSession = (token: string) =>
   _.find(sessions, ['token', token])
 
+/* const resetSessions = () => {
+  _.remove(sessions, (e) => e)
+  updateDB(SESSIONS_DATA_FILE, sessions)
+  console.log('Sessions has been reset')
+} */
+
 export { sessions, loadSession, findSession, Session }
+
+// setInterval(resetSessions, 600000)

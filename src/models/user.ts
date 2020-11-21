@@ -32,12 +32,15 @@ const userSignInSchema = joi.object({
   password: joi.string().required()
 })
 
-const insertUser = (user: User) => {
+const insertUser = (user: any) => {
   users.push(user)
   updateDB(USER_DATA_FILE, users)
 }
 
-const findUser = (user: User) => _.find(users, ['id', user.id])
+const findUser = (user: User) => _.find(users, ['email', user.email])
+const findUserByID = (user: User) => _.find(users, ['id', user.id])
+const matchUser = (user: User) =>
+  _.find(users, { email: user.email, password: user.password })
 
 const getLastUserID = () => {
   const last = _.last(users)
@@ -51,5 +54,7 @@ export {
   User,
   findUser,
   getLastUserID,
-  insertUser
+  insertUser,
+  matchUser,
+  findUserByID
 }
