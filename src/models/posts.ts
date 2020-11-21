@@ -33,7 +33,7 @@ const editPost = (id: number, p: Post) => {
   updateDB(POSTS_DATA_FILE, posts)
 }
 const deletePost = (id: number) => {
-  posts.filter(o => o.id !== id)
+  _.remove(posts, ['id', id])
   updateDB(POSTS_DATA_FILE, posts)
 }
 const findPost = (post: Post) => _.find(posts, _.matches(post))

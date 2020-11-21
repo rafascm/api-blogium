@@ -61,7 +61,7 @@ router.put('/:id', auth, (req: Request, res: Response) => {
   res.send(findPostByID(id)).status(200)
 })
 
-router.delete('/:id', (req: Request, res: Response) => {
+router.delete('/:id', auth, (req: Request, res: Response) => {
   const id = Number(req.params.id)
   const user = req.res && req.res.locals.user
 
